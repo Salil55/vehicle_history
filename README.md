@@ -15,7 +15,7 @@ Responsive, minimal UI with no external CSS frameworks
 
 
 Project Structure
-==========================
+==================
 
 project/
 ├── oilchange.py          # Flask backend — app entry point
