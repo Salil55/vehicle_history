@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">ServiceIQ</div>
+
+    <button class="nav-btn active" data-section="vehicle-section" onclick="showSection('vehicle-section')">My Vehicles</button>
+    <button class="nav-btn" data-section="service-section" onclick="showSection('service-section')">Service History</button>
+
+    <div class="sb-foot">
+      <div class="toggle-row">
+        <span class="toggle-label" id="themeLabel">Light Mode</span>
+        <label class="sw">
+          <input type="checkbox" id="themeToggle">
+          <div class="track"></div>
+          <div class="thumb"></div>
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- VEHICLES SECTION -->
+    <div id="vehicle-section" class="section active">
+      <div class="page-header">
+        <div class="page-title">My Vehicles</div>
+        <button class="btn btn-dark" onclick="showForm()">+ Add Vehicle</button>
+      </div>
+
+      <div class="form-wrap" id="vehicle-form" style="display:none;">
+        <div class="form-title" id="formTitle">Add Vehicle</div>
+        <form id="vehicleForm">
+          <div class="form-grid">
+            <div class="fg"><label class="fl">Vehicle Type</label>
+              <select id="vehicleType" class="fs">
+                <option value="Bike">Bike</option>
+                <option value="Car">Car</option>
+              </select>
+            </div>
+            <div class="fg"><label class="fl">Vehicle Model</label>
+              <input type="text" id="vehicleModel" class="fc" placeholder="e.g. Honda City" required>
+            </div>
+            <div class="fg"><label class="fl">Registration Number</label>
+              <input type="text" id="regNumber" class="fc" placeholder="e.g. KL-01-AB-1234" required>
+            </div>
+            <div class="fg"><label class="fl">Last Service Date</label>
+              <input type="date" id="serviceDate" class="fc" required>
+            </div>
+            <div class="fg"><label class="fl">Last Service KM</label>
+              <input type="number" id="serviceKm" class="fc" placeholder="e.g. 12000" required>
+            </div>
+            <div class="fg"><label class="fl">Current Odometer</label>
+              <input type="number" id="odometer" class="fc" placeholder="e.g. 14500" required>
+            </div>
+          </div>
+          <div class="form-foot">
+            <button type="submit" class="btn btn-dark">Save</button>
+            <button type="button" class="btn btn-outline" onclick="hideForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="vehicle-list" class="card-grid"></div>
+    </div>
+
+    <!-- SERVICE HISTORY SECTION -->
+    <div id="service-section" class="section">
+      <div class="page-header">
+        <div class="page-title">Service History</div>
+        <div class="filter-row">
+          <label class="fl" style="margin-bottom:0;line-height:2">Filter by vehicle:</label>
+          <select id="vehicleFilter" class="fs" onchange="renderServiceHistory()" style="width:200px;">
+            <option value="all">All Vehicles</option>
+          </select>
+        </div>
+      </div>
+      <div id="service-dashboard"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ADD SERVICE MODAL -->
+<div id="nextServiceModal" class="overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Log Service Entry</div>
+      <button class="modal-x" onclick="closeModal()">&#x2715;</button>
+    </div>
+    <div class="modal-chip">
+      <div class="mc-name" id="modalVehicleName">—</div>
+      <div class="mc-meta" id="modalVehicleMeta">—</div>
+    </div>
+    <form id="nextServiceForm">
+      <div class="mfg"><label class="fl">Service Date</label>
+        <input type="date" id="modalServiceDate" class="fc" required>
+      </div>
+      <div class="mfg"><label class="fl">Odometer at Service (km)</label>
+        <input type="number" id="modalOdometer" class="fc" placeholder="e.g. 18500" required>
+      </div>
+      <div class="mfg"><label class="fl">Notes (optional)</label>
+        <input type="text" id="modalNotes" class="fc" placeholder="e.g. Oil + filter changed">
+      </div>
+      <button type="submit" class="btn btn-dark btn-full">Save Service Entry</button>
+    </form>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
